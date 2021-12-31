@@ -1,5 +1,6 @@
 package accountingLog2021.models;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Calendar;
 
@@ -9,52 +10,19 @@ public class TransForReport {
     private String docNr;
     private String partner;
     private String transDescription;
-    private double cashReceived;
-    private double cashIssued;
-    private double bankReceived;
-    private double bankIssued;
-    private double businessReceived;
-    private double notBusinessReceived;
-    private double totalReceived;
-    private double businessIssued;
-    private double notBusinessIssued;
-    private double totalIssued;
+    private BigDecimal cashReceived;
+    private BigDecimal cashIssued;
+    private BigDecimal bankReceived;
+    private BigDecimal bankIssued;
+    private BigDecimal businessReceived;
+    private BigDecimal notBusinessReceived;
+    private BigDecimal totalReceived;
+    private BigDecimal businessIssued;
+    private BigDecimal notBusinessIssued;
+    private BigDecimal totalIssued;
     private int attitudeForBusiness;
     private LocalDate registrationTime;
 
-    public TransForReport(String date
-            , String docNr
-            , String partner
-            , String transDescription
-            , double cashReceived
-            , double cashIssued
-            , double bankReceived
-            , double bankIssued
-            , double businessReceived
-            , double notBusinessReceived
-            , double totalReceived
-            , double businessIssued
-            , double notBusinessIssued
-            , double totalIssued
-            , int attitudeForBusiness
-            , LocalDate registrationTime) {
-        this.date = date;
-        this.docNr = docNr;
-        this.partner = partner;
-        this.transDescription = transDescription;
-        this.cashReceived = cashReceived;
-        this.cashIssued = cashIssued;
-        this.bankReceived = bankReceived;
-        this.bankIssued = bankIssued;
-        this.businessReceived = businessReceived;
-        this.notBusinessReceived = notBusinessReceived;
-        this.totalReceived = totalReceived;
-        this.businessIssued = businessIssued;
-        this.notBusinessIssued = notBusinessIssued;
-        this.totalIssued = totalIssued;
-        this.attitudeForBusiness = attitudeForBusiness;
-        this.registrationTime = registrationTime;
-    }
 
     public TransForReport() {
     }
@@ -62,6 +30,7 @@ public class TransForReport {
     public Long getId() {
         return id;
     }
+
 
     public String getDate() {
         return date;
@@ -95,83 +64,83 @@ public class TransForReport {
         this.transDescription = transDescription;
     }
 
-    public double getCashReceived() {
+    public BigDecimal getCashReceived() {
         return cashReceived;
     }
 
-    public void setCashReceived(double cashReceived) {
+    public void setCashReceived(BigDecimal cashReceived) {
         this.cashReceived = cashReceived;
     }
 
-    public double getCashIssued() {
+    public BigDecimal getCashIssued() {
         return cashIssued;
     }
 
-    public void setCashIssued(double cashIssued) {
+    public void setCashIssued(BigDecimal cashIssued) {
         this.cashIssued = cashIssued;
     }
 
-    public double getBankReceived() {
+    public BigDecimal getBankReceived() {
         return bankReceived;
     }
 
-    public void setBankReceived(double bankReceived) {
+    public void setBankReceived(BigDecimal bankReceived) {
         this.bankReceived = bankReceived;
     }
 
-    public double getBankIssued() {
+    public BigDecimal getBankIssued() {
         return bankIssued;
     }
 
-    public void setBankIssued(double bankIssued) {
+    public void setBankIssued(BigDecimal bankIssued) {
         this.bankIssued = bankIssued;
     }
 
-    public double getBusinessReceived() {
+    public BigDecimal getBusinessReceived() {
         return businessReceived;
     }
 
-    public void setBusinessReceived(double businessReceived) {
+    public void setBusinessReceived(BigDecimal businessReceived) {
         this.businessReceived = businessReceived;
     }
 
-    public double getNotBusinessReceived() {
+    public BigDecimal getNotBusinessReceived() {
         return notBusinessReceived;
     }
 
-    public void setNotBusinessReceived(double notBusinessReceived) {
+    public void setNotBusinessReceived(BigDecimal notBusinessReceived) {
         this.notBusinessReceived = notBusinessReceived;
     }
 
-    public double getTotalReceived() {
+    public BigDecimal getTotalReceived() {
         return totalReceived;
     }
 
-    public void setTotalReceived(double totalReceived) {
+    public void setTotalReceived(BigDecimal totalReceived) {
         this.totalReceived = totalReceived;
     }
 
-    public double getBusinessIssued() {
+    public BigDecimal getBusinessIssued() {
         return businessIssued;
     }
 
-    public void setBusinessIssued(double businessIssued) {
+    public void setBusinessIssued(BigDecimal businessIssued) {
         this.businessIssued = businessIssued;
     }
 
-    public double getNotBusinessIssued() {
+    public BigDecimal getNotBusinessIssued() {
         return notBusinessIssued;
     }
 
-    public void setNotBusinessIssued(double notBusinessIssued) {
+    public void setNotBusinessIssued(BigDecimal notBusinessIssued) {
         this.notBusinessIssued = notBusinessIssued;
     }
 
-    public double getTotalIssued() {
+    public BigDecimal getTotalIssued() {
         return totalIssued;
     }
 
-    public void setTotalIssued(double totalIssued) {
+    public void setTotalIssued(BigDecimal totalIssued) {
         this.totalIssued = totalIssued;
     }
 

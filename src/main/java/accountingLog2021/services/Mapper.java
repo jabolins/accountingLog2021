@@ -38,6 +38,14 @@ public class Mapper {
     public TransForReport mapTransactionFromSQL(Transaction transaction) { // TODO jāpārtaisa uz BIgDecimal visu
         TransForReport trans = new TransForReport();
 
+        BigDecimal sumOfTrans = new BigDecimal(Double.toString(transaction.getSum())).abs();
+        BigDecimal attitudeForBusiness= new BigDecimal(Double.toString
+                (transaction.getAttitudeForBusiness()))
+                .divide(BigDecimal.valueOf(100));
+
+        BigDecimal sumWithAttitude = new BigDecimal(String.valueOf
+                (sumOfTrans.multiply(attitudeForBusiness))).setScale(2,RoundingMode.HALF_UP);
+
         trans.setDate(transaction.getDate().toString());
         trans.setDocNr(transaction.getTransactionDocNr());
         trans.setPartner(transaction.getTransactionPartner());
@@ -45,56 +53,44 @@ public class Mapper {
 
         if (transaction.getBankCash().equals("CASH")) {
             if (transaction.getSum() < 0) {
-                trans.setCashIssued(Math.abs(transaction.getSum()));
+                trans.setCashIssued(sumOfTrans);
             }
             if (transaction.getSum() > 0) {
-                trans.setCashReceived(transaction.getSum());
+                trans.setCashReceived(sumOfTrans);
             }
         }
 
         if (transaction.getBankCash().equals("BANK")) {
             if (transaction.getSum() < 0) {
-                trans.setBankIssued(Math.abs(transaction.getSum()));
+                trans.setBankIssued(sumOfTrans);
             }
             if (transaction.getSum() > 0) {
-                trans.setBankReceived(transaction.getSum());
+                trans.setBankReceived(sumOfTrans);
             }
         }
 
         if (transaction.getSum() > 0) {
             if (transaction.getAttitudeForBusiness() > 0) {
-                trans.setBusinessReceived(rounding
-                        (transaction.getSum() * transaction.getAttitudeForBusiness() / 100));
-                trans.setNotBusinessReceived(transaction.getSum()
-                        - (rounding(transaction.getSum() * transaction.getAttitudeForBusiness() / 100)));
-                trans.setTotalReceived(transaction.getSum());
+                trans.setBusinessReceived(sumWithAttitude);
+                trans.setNotBusinessReceived(sumOfTrans.subtract(sumWithAttitude));
+                trans.setTotalReceived(sumOfTrans);
             }
         }
 
         if (transaction.getSum() < 0) {
             if (transaction.getAttitudeForBusiness() > 0) {
-                trans.setBusinessIssued(rounding
-                        (Math.abs(transaction.getSum()) * transaction.getAttitudeForBusiness() / 100));
-                trans.setNotBusinessIssued((Math.abs(transaction.getSum()) -
-                        (rounding(Math.abs(transaction.getSum()) * transaction.getAttitudeForBusiness() / 100))));
-                trans.setTotalIssued(Math.abs(transaction.getSum()));
+                trans.setBusinessIssued(sumWithAttitude);
+                trans.setNotBusinessIssued(sumOfTrans.subtract(sumWithAttitude));
+                trans.setTotalIssued(sumOfTrans);
             }
         }
 
         trans.setAttitudeForBusiness(transaction.getAttitudeForBusiness());
-
         trans.setRegistrationTime(
                 Instant.ofEpochMilli(transaction.getRegTime())
                         .atZone(ZoneId.systemDefault())
                         .toLocalDate());
         return trans;
-    }
-
-    private double rounding(double number) {
-        BigDecimal bd = new BigDecimal(Double.toString(number));
-        bd= bd.setScale(2, RoundingMode.HALF_DOWN);
-
-        return bd.doubleValue();
     }
 
 }
