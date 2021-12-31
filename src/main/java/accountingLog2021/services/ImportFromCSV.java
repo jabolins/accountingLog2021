@@ -15,48 +15,57 @@ import java.util.ArrayList;
 import static java.lang.Double.parseDouble;
 
 @Service
-public class ImportFromSwedbank {
+public class ImportFromCSV {
+private static final String SWED_BANK_STANDARD= "\"Klienta konts\";\"Ieraksta tips\";\"Datums\";\"Saņēmējs/Maksātājs\"" +
+        ";\"Informācija saņēmējam\";\"Summa\";\"Valūta\";\"Debets/Kredīts\";\"Arhīva kods\";\"Maksājuma veids\";" +
+        "\"Refernces numurs\";\"Dokumenta numurs\";";
 
-    public ImportFromSwedbank() {
+    public ImportFromCSV() {
     }
 
-    ArrayList<ImportedTransactions> importedTransactions;
-
-    private static final String SAMPLE_CSV_FILE_PATH = "D:\\Google_disks\\Apmacibas\\Programmesana\\Java\\Projekti\\Uzskaites_zurnals\\Swedbank.csv";
-
-
-    public ArrayList<ImportedTransactions> getTransactions(){
+    public static ArrayList<ImportedTransactions> getTransactions(String filePath){
         ArrayList<ImportedTransactions> result = new ArrayList<>();
+
         Reader reader = null;
         try {
-            reader = Files.newBufferedReader(Paths.get(SAMPLE_CSV_FILE_PATH));
+            reader = Files.newBufferedReader(Paths.get(filePath));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        if (checkBank(filePath).equals("SWEDBANK")) {
+           result= swedbankCSV(reader);
+        }
+        else{
+            result =null;
+        }
+        return result;
+    }
+
+    private static ArrayList<ImportedTransactions> swedbankCSV(Reader reader) {
+        ArrayList<ImportedTransactions> arrayList = new ArrayList<>();
         CSVParser csvParser = null;
         try {
             csvParser = new CSVParser(reader, CSVFormat.EXCEL.withDelimiter(';')
-                        .withFirstRecordAsHeader()
-                        .withIgnoreHeaderCase()
-                        .withTrim());
+                    .withFirstRecordAsHeader()
+                    .withIgnoreHeaderCase()
+                    .withTrim());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
 
         for (CSVRecord csvRecord : csvParser) {
 
             if (!csvRecord.get("Informācija saņēmējam").equals("Sākuma atlikums")
                     && !csvRecord.get("Informācija saņēmējam").equals("Apgrozījums")
-                    && !csvRecord.get("Informācija saņēmējam").equals("Beigu atlikums"))
-            {
+                    && !csvRecord.get("Informācija saņēmējam").equals("Beigu atlikums")) {
+
                 ImportedTransactions importedTransactions = new ImportedTransactions();
                 importedTransactions.setDate(csvRecord.get("Datums"));
                 importedTransactions.setCompany(csvRecord.get("Saņēmējs/Maksātājs"));
                 importedTransactions.setDescription(csvRecord.get("Informācija saņēmējam"));
                 importedTransactions.setSum(csvRecord.get("Summa"));
-
+                importedTransactions.setBankCash("BANK");
                 if (csvRecord.get("Debets/Kredīts").equals("D")) {
                     importedTransactions.setIncomeExpense("EXPENSE");
                 } else if (csvRecord.get("Debets/Kredīts").equals("K")) {
@@ -65,27 +74,20 @@ public class ImportFromSwedbank {
                     importedTransactions.setIncomeExpense("NONE");
                 }
 
-                importedTransactions.setBankCash("BANK");
-                result.add(importedTransactions);
+                arrayList.add(importedTransactions);
             }
-//            // Accessing values by Header names
-//            String date = csvRecord.get("Datums");
-//            String company = csvRecord.get("Saņēmējs/Maksātājs");
-//            String description = csvRecord.get("Informācija saņēmējam");
-//            String sum = csvRecord.get("Summa");
-//            String incomeExpense = csvRecord.get("Debets/Kredīts");
-//
-//            System.out.println("Record No - " + csvRecord.getRecordNumber());
-//            System.out.println("---------------");
-//            System.out.println("Date: " + date);
-//            System.out.println("Company : " + company);
-//            System.out.println("Description : " + description);
-//            System.out.println("Sum : " + sum);
-//            System.out.println("IncomeExpense: " + incomeExpense);
-//            System.out.println("---------------\n\n");
-
         }
+        return arrayList;
+    }
 
-        return result;
+    private static String checkBank(String filePath) {
+        try {
+            if((Files.readAllLines(Paths.get(filePath)).get(0)).equals(SWED_BANK_STANDARD)){
+               return "SWEDBANK";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "bank standard not recognized";
     }
 }

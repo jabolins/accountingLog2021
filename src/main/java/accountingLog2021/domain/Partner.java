@@ -23,10 +23,6 @@ public class Partner {
     @Column (name="partnerBasicProduct")
     private BasicProductGroup partnerBasicProductGroup;
 
-    @Enumerated (EnumType.STRING)
-    @Column (name = "attitudeForBusiness")
-    private AttitudeForBusiness attitudeForBusiness;
-
     @Column (name = "partnerRegNr", length = 20)
     private String partnerRegNr;
 

@@ -1,54 +1,57 @@
-package accountingLog2021.domain;
+package accountingLog2021.models;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.sql.Date;
 
-@Entity(name = "Transaction")
-@Table(name = "Transaction")
-public class Transaction {
+public class TransactionFromWeb {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private long id;
+    private String date;
 
-    @Column(name = "transactionDate", nullable = false)
-    private Date date;
+    private Double sum;
 
-    @Column(name = "transactionDocNr", length = 100)
     private String transactionDocNr;
 
-    @Column(name = "transactionPartner", length = 100)
     private String transactionPartner;
 
-    @Column(name = "transactionDescription", nullable = false, length = 100)
     private String transactionDescription;
 
-    @Column(name = "sum", nullable = false)
-    private double sum;
-
-    @Column(name = "bank_cash", nullable = false, length = 10)
     private String bankCash;
 
-    @Column(name= "attitude_for_business")
     private int attitudeForBusiness;
 
-    @Column(name = "registration_time_ms", nullable = false)
-    private long regTime;
-
-    public Transaction() {
+    public TransactionFromWeb(String date
+            , Double sum
+            , String transactionDocNr
+            , String transactionPartner
+            , String transactionDescription
+            , String bankCash
+            , int attitudeForBusiness) {
+        this.date = date;
+        this.sum = sum;
+        this.transactionDocNr = transactionDocNr;
+        this.transactionPartner = transactionPartner;
+        this.transactionDescription = transactionDescription;
+        this.bankCash = bankCash;
+        this.attitudeForBusiness = attitudeForBusiness;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
+    }
+
+    public Double getSum() {
+        return sum;
+    }
+
+    public void setSum(Double sum) {
+        this.sum = sum;
     }
 
     public String getTransactionDocNr() {
@@ -75,14 +78,6 @@ public class Transaction {
         this.transactionDescription = transactionDescription;
     }
 
-    public double getSum() {
-        return sum;
-    }
-
-    public void setSum(double sum) {
-        this.sum = sum;
-    }
-
     public String getBankCash() {
         return bankCash;
     }
@@ -99,26 +94,16 @@ public class Transaction {
         this.attitudeForBusiness = attitudeForBusiness;
     }
 
-    public long getRegTime() {
-        return regTime;
-    }
-
-    public void setRegTime(long regTime) {
-        this.regTime = regTime;
-    }
-
     @Override
     public String toString() {
-        return "Transaction{" +
-                "id=" + id +
-                ", date=" + date +
+        return "TransactionFromWeb{" +
+                "date='" + date + '\'' +
+                ", sum='" + sum + '\'' +
                 ", transactionDocNr='" + transactionDocNr + '\'' +
                 ", transactionPartner='" + transactionPartner + '\'' +
                 ", transactionDescription='" + transactionDescription + '\'' +
-                ", sum=" + sum +
                 ", bankCash='" + bankCash + '\'' +
                 ", attitudeForBusiness=" + attitudeForBusiness +
-                ", regTime=" + regTime +
                 '}';
     }
 }

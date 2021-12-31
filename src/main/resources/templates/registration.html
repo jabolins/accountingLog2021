@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>logIn</title>
+</head>
+<body>
+
+<form id="registrationForm" method="post" >
+
+    <label for="date">Datums</label>
+    <input type="date" id="date" name="date" placeholder="Datums"><br><br>
+
+    <label for="sum">Summa</label>
+    <input type="String" id="sum" name="sum" placeholder="Summa"> <br><br>
+
+    <label for="transactionDocNr">Dokumenta Nr</label>
+    <input type="String" id="transactionDocNr" name="transactionDocNr" placeholder="Dokumenta Nr"> <br><br>
+
+    <label for="transactionPartner">Darījuma partneris</label>
+    <input type="String" id="transactionPartner" name="transactionPartner" placeholder="Darījuma partneris"> <br><br>
+
+    <label for="transactionDescription">Darījuma apraksts</label>
+    <input type="String" id="transactionDescription" name="transactionDescription" placeholder="Darījuma apraksts"> <br><br>
+
+    <label for="attitudeForBusiness">Saistība ar uzņēmējdarbību</label>
+    <input type="Integer" id="attitudeForBusiness" name="attitudeForBusiness" placeholder="%"> <br><br>
+
+
+    <span>Banka/kase</span>
+    <input type="radio" name="bankCash" id="cash" value="CASH" checked>
+    <label for="cash">Kase</label>
+    <input type="radio" name="bankCash" id="bank" value="BANK">
+    <label for="bank">Banka</label><br><br>
+
+
+    <!-- nākošajā rindiņā sagatavojamies ja būs kāds kļūdas paziņojums-->
+    <div id="error" style="color: red"></div>
+
+    <!-- ja strādājam ar formu tad pogu labāk veidot kā submit nevis button-->
+    <input type="submit" name="submit" value="Reģistrēt">
+</form>
+
+<!-- links jānorāda ar theamleaf palīdzību nevis pa tiešo -->
+<script th:src="@{/registration.js}" type="text/javascript"></script>
+</body>
+</html>
